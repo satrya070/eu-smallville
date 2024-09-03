@@ -49,7 +49,7 @@ public:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
-	void Jump();
-	//void StopJump();
+	void StartJump();
+	void StopJump();
 
 };
