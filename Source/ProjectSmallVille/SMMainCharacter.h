@@ -19,14 +19,21 @@ public:
 	// Sets default values for this character's properties
 	ASMMainCharacter();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	UPROPERTY(EditAnywhere, Category="Components")
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(EditAnywhere, Category="Components")
+	UCameraComponent* CameraComponent;
+
+
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class UCameraComponent* CameraComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
-	UStaticMesh* MeshComp;
+	UStaticMesh* MeshComp;*/
 
 protected:
 	// Called when the game starts or when spawned
