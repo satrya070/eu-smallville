@@ -52,4 +52,6 @@ public:
 	void StartJump();
 	void StopJump();
 
+	void Crouch();
+	void UnCrouch();
 };

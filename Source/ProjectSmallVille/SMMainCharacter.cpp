@@ -47,6 +47,10 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// bind jump
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASMMainCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ASMMainCharacter::StopJump);
+
+	// bind crouch
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASMMainCharacter::Crouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASMMainCharacter::UnCrouch);
 }
 
 void ASMMainCharacter::MoveForward(float Value)
@@ -67,5 +71,15 @@ void ASMMainCharacter::StartJump()
 void ASMMainCharacter::StopJump()
 {
 	bPressedJump = false;
+}
+
+void ASMMainCharacter::Crouch()
+{
+	Super::Crouch();
+}
+
+void ASMMainCharacter::UnCrouch()
+{
+	Super::UnCrouch();
 }
 
