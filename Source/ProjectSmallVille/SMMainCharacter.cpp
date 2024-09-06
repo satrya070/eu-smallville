@@ -26,6 +26,8 @@ void ASMMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Display, TEXT("Hello there!"));
+
+	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
 }
 
 // Called every frame
@@ -82,4 +84,5 @@ void ASMMainCharacter::UnCrouch()
 {
 	Super::UnCrouch();
 }
+
 
