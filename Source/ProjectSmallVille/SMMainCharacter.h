@@ -25,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere, Category="Components")
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(EditAnywhere, Category="Attacks")
+	UAnimMontage* ShoveAnimation;
+
 
 	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class USpringArmComponent* SpringArmComp;
@@ -34,6 +37,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
 	UStaticMesh* MeshComp;*/
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -55,4 +59,7 @@ public:
 
 	void Crouch();
 	void UnCrouch();
+
+	// attacks
+	void Push();
 };

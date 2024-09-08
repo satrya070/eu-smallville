@@ -4,6 +4,10 @@
 #include "SMMainCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Animation/AnimSequence.h"
+#include "Components/SphereComponent.h"
+
+
 
 // Sets default values
 ASMMainCharacter::ASMMainCharacter()
@@ -27,6 +31,7 @@ void ASMMainCharacter::BeginPlay()
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Display, TEXT("Hello there!"));
 
+	SpringArmComponent->bEnableCameraLag = true;
 	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
 }
 
@@ -53,6 +58,8 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// bind crouch
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASMMainCharacter::Crouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASMMainCharacter::UnCrouch);
+
+	PlayerInputComponent->BindAction("Push", IE_Pressed, this, &ASMMainCharacter::Push);
 }
 
 void ASMMainCharacter::MoveForward(float Value)
@@ -85,4 +92,12 @@ void ASMMainCharacter::UnCrouch()
 	Super::UnCrouch();
 }
 
+void ASMMainCharacter::Push()
+{
+	//PlayAnimSequnce(ShoveAnimation);
+	if (GetMesh() && ShoveAnimation && GetMesh()->GetAnimInstance())
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(ShoveAnimation);
+	}
+}
 
