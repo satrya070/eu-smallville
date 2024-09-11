@@ -2,6 +2,7 @@
 
 
 #include "AICharacter.h"
+#include "Logging/LogMacros.h"
 
 // Sets default values
 AAICharacter::AAICharacter()
@@ -30,5 +31,14 @@ void AAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	
+	UE_LOG(LogTemp, Display, TEXT("Damage is: %s"), DamageAmount);
+
+	return DamageAmount;
 }
 

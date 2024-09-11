@@ -28,6 +28,12 @@ public:
 	UPROPERTY(EditAnywhere, Category="Attacks")
 	UAnimMontage* ShoveAnimation;
 
+	UPROPERTY(EditAnywhere)
+	float Maxhealth = 100.f;
+
+	UPROPERTY(VisibleAnywhere)
+	float CurrentHealth;
+
 
 	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class USpringArmComponent* SpringArmComp;
