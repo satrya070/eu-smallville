@@ -37,7 +37,7 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	
-	UE_LOG(LogTemp, Display, TEXT("Damage is: %s"), DamageAmount);
+	//UE_LOG(LogTemp, Display, TEXT("Damage is: %s"), DamageAmount);
 
 	return DamageAmount;
 }
