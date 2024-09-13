@@ -34,6 +34,11 @@ void ASMMainCharacter::BeginPlay()
 
 	SpringArmComponent->bEnableCameraLag = true;
 	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
+
+	//bUseControllerRotationYaw = false;
+	UE_LOG(LogTemp, Display, TEXT("using rotion yaw: %s"), bUseControllerRotationYaw ? TEXT("true") : TEXT("false"));
+	SpringArmComponent->bUsePawnControlRotation = false;
+	SpringArmComponent->bInheritYaw = false;
 }
 
 // Called every frame
@@ -98,7 +103,10 @@ void ASMMainCharacter::Push()
 	//PlayAnimSequnce(ShoveAnimation);
 	if (GetMesh() && ShoveAnimation && GetMesh()->GetAnimInstance())
 	{
-		GetMesh()->GetAnimInstance()->Montage_Play(ShoveAnimation);
+		if (!GetMesh()->GetAnimInstance()->IsAnyMontagePlaying())
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(ShoveAnimation);
+		}
 	}
 }
 
