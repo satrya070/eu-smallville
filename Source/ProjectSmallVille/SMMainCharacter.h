@@ -68,4 +68,19 @@ public:
 
 	// attacks
 	void Push();
+	void IsTurning(float DeltaTime);
+
+	void SmoothRotate(float DeltaTime);
+
+	UPROPERTY(BlueprintReadOnly)
+	bool IsRotating;
+
+private:
+	FTimerHandle TimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	float RotateSpeed = 2.5f;
+
+	void EnableMovement();
+	void DisableMovement();
 };

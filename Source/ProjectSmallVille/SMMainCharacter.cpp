@@ -7,6 +7,10 @@
 #include "Animation/AnimSequence.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/Actor.h"
+#include "TimerManager.h"
+#include "SMPlayerController.h"
 
 
 
@@ -46,6 +50,11 @@ void ASMMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//IsTurning(DeltaTime);
+	//UE_LOG(LogTemp, Display, TEXT("%s"), *GetActorRotation().ToString());
+	//SmoothRotate(DeltaTime);
+	IsTurning(DeltaTime);
+	SmoothRotate(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -107,6 +116,59 @@ void ASMMainCharacter::Push()
 		{
 			GetMesh()->GetAnimInstance()->Montage_Play(ShoveAnimation);
 		}
+	}
+}
+
+void ASMMainCharacter::IsTurning(float DeltaTime)
+{
+	FVector world_forward_velocity = GetVelocity();
+
+	if (world_forward_velocity.X < 0.f)
+	{
+		IsRotating = true;
+		DisableMovement();
+	}
+}
+
+
+void ASMMainCharacter::SmoothRotate(float DeltaTime)
+{
+	if (IsRotating == true)
+	{
+		FRotator CurrentRotation = GetActorRotation();
+		FRotator TargetRotation = FRotator(0, 180.f, 0);
+
+		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotateSpeed);
+		//UE_LOG(LogTemp, Display, TEXT("setting new rotation: %s"), *GetActorRotation().ToString());
+		//UE_LOG(LogTemp, Display, TEXT("actor rotation: %s"), *GetActorRotation().ToString());
+		GetController()->SetControlRotation(NewRotation);
+
+		if (CurrentRotation.Equals(NewRotation, 0.01f))
+		{
+			UE_LOG(LogTemp, Display, TEXT("rotation complete"));
+			IsRotating = false;
+			EnableMovement();
+			//this->SetActorRotation(CurrentRotation.Yaw);
+			SetActorRotation(FRotator(0, 180.f, 0));
+		}
+	}
+}
+
+void ASMMainCharacter::EnableMovement()
+{
+	ASMPlayerController* PlayerController = Cast<ASMPlayerController>(GetController());
+	if (PlayerController)
+	{
+		PlayerController->SetIgnoreMoveInput(false);
+	}
+}
+
+void ASMMainCharacter::DisableMovement()
+{
+	ASMPlayerController* PlayerController = Cast<ASMPlayerController>(GetController());
+	if (PlayerController)
+	{
+		PlayerController->SetIgnoreMoveInput(true);
 	}
 }
 
