@@ -53,8 +53,8 @@ void ASMMainCharacter::Tick(float DeltaTime)
 	//IsTurning(DeltaTime);
 	//UE_LOG(LogTemp, Display, TEXT("%s"), *GetActorRotation().ToString());
 	//SmoothRotate(DeltaTime);
-	IsTurning(DeltaTime);
-	SmoothRotate(DeltaTime);
+	//IsTurning(DeltaTime);
+	//SmoothRotate(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -64,6 +64,7 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	// bind the movements to axis
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASMMainCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveBackwards", this, &ASMMainCharacter::MoveBackwards);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASMMainCharacter::MoveRight);
 
 	// bind jump
@@ -79,6 +80,23 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void ASMMainCharacter::MoveForward(float Value)
 {
+
+	if (Value > 0.f && GetActorForwardVector().X < 0.f)
+	{
+		GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
+	}
+	//UE_LOG(LogTemp, Display, TEXT("actor moveforward vec: %s"), *GetActorForwardVector().ToString());
+
+	AddMovementInput(GetActorForwardVector(), Value);
+}
+
+void ASMMainCharacter::MoveBackwards(float Value)
+{
+	if (Value > 0.0f && GetActorForwardVector().X == 1)
+	{
+		GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
+	}
+
 	AddMovementInput(GetActorForwardVector(), Value);
 }
 
