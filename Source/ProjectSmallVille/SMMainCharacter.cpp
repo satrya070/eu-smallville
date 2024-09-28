@@ -65,7 +65,6 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// bind the movements to axis
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASMMainCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveBackwards", this, &ASMMainCharacter::MoveBackwards);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ASMMainCharacter::MoveRight);
 
 	// bind jump
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASMMainCharacter::StartJump);
@@ -98,11 +97,6 @@ void ASMMainCharacter::MoveBackwards(float Value)
 	}
 
 	AddMovementInput(GetActorForwardVector(), Value);
-}
-
-void ASMMainCharacter::MoveRight(float Value)
-{
-	AddMovementInput(GetActorRightVector(), Value);
 }
 
 void ASMMainCharacter::StartJump()
