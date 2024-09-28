@@ -11,7 +11,7 @@
 #include "GameFramework/Actor.h"
 #include "TimerManager.h"
 #include "SMPlayerController.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 // Sets default values
@@ -43,6 +43,10 @@ void ASMMainCharacter::BeginPlay()
 	UE_LOG(LogTemp, Display, TEXT("using rotion yaw: %s"), bUseControllerRotationYaw ? TEXT("true") : TEXT("false"));
 	SpringArmComponent->bUsePawnControlRotation = false;
 	SpringArmComponent->bInheritYaw = false;
+
+	// constraint force character to never om on Y plane! ever!
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->SetPlaneConstraintNormal(FVector(0, 1, 0));
 }
 
 // Called every frame
@@ -55,6 +59,7 @@ void ASMMainCharacter::Tick(float DeltaTime)
 	//SmoothRotate(DeltaTime);
 	//IsTurning(DeltaTime);
 	//SmoothRotate(DeltaTime);
+
 }
 
 // Called to bind functionality to input
