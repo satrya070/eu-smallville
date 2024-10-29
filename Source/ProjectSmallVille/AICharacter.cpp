@@ -37,7 +37,8 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	
-	//UE_LOG(LogTemp, Display, TEXT("Damage is: %s"), DamageAmount);
+	Health = Health - DamageAmount;
+	//UE_LOG(LogTemp, Display, TEXT("AI Health is: %s"), Health);
 
 	return DamageAmount;
 }
