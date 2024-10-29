@@ -126,8 +126,7 @@ void ASMMainCharacter::UnCrouch()
 
 void ASMMainCharacter::Push()
 {
-	//PlayAnimSequnce(ShoveAnimation);
-	if (GetMesh() && ShoveAnimation && GetMesh()->GetAnimInstance())
+	if (GetMesh() && ShoveAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
 	{
 		if (!GetMesh()->GetAnimInstance()->IsAnyMontagePlaying())
 		{

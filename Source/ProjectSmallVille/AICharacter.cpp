@@ -40,6 +40,12 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	Health = Health - DamageAmount;
 	//UE_LOG(LogTemp, Display, TEXT("AI Health is: %s"), Health);
 
+	if (Health <= 0)
+	{
+		Destroy();
+	}
+
 	return DamageAmount;
 }
+
 
