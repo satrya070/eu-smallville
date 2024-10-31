@@ -31,5 +31,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	float Health = 100.f;
 
-private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	FVector MuzzleOffset;
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
+protected:
+	UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	TSubclassOf<class AAIProjectile> ProjectileClass;
 };

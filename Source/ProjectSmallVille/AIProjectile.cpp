@@ -33,6 +33,26 @@ AAIProjectile::AAIProjectile()
 		ProjectileMovementComponent->Bounciness = 3.0f;
 		ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 	}
+
+	if (!ProjectileMeshComponent)
+	{
+		ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
+		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/AIBlueprints/meshes/Sphere.Sphere'"));
+		if (Mesh.Succeeded())
+		{
+			ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
+		}
+
+		static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/AIBlueprints/meshes/Fbx_Default_Material.Fbx_Default_Material'"));
+		if (Material.Succeeded())
+		{
+			ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
+		}
+		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
+		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
+		ProjectileMeshComponent->SetupAttachment(RootComponent);
+
+	}
 }
 
 // Called when the game starts or when spawned

@@ -3,6 +3,7 @@
 
 #include "AICharacter.h"
 #include "Logging/LogMacros.h"
+#include "AIProjectile.h"
 
 // Sets default values
 AAICharacter::AAICharacter()
@@ -46,6 +47,31 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	}
 
 	return DamageAmount;
+}
+
+void AAICharacter::Fire()
+{
+	if (ProjectileClass)
+	{
+		// TODO set muzzle offset to spawn slighty in front
+
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+			FRotator MuzzleRotation = FRotator(-1.f, 0.f, 0.f);
+
+			// spawn projectile at muzzle
+			AAIProjectile* Projectile = World->SpawnActor<AAIProjectile>(ProjectileClass, GetActorLocation(), MuzzleRotation, SpawnParams);
+			if (Projectile)
+			{
+				FVector LaunchDirection = MuzzleRotation.Vector();
+				Projectile->FireInDirection(LaunchDirection);
+			}
+		}
+	}
 }
 
 
