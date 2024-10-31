@@ -34,7 +34,8 @@ ASMMainCharacter::ASMMainCharacter()
 void ASMMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Display, TEXT("Hello there!"));
+	//UE_LOG(LogTemp, Display, TEXT("world rotation: %s"), *GetActorRotation().ToString());
+	//UE_LOG(LogTemp, Display, TEXT("relative rotation: %s"), *GetRootComponent()->GetRelativeRotation().ToString());
 
 	SpringArmComponent->bEnableCameraLag = true;
 	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
@@ -44,7 +45,7 @@ void ASMMainCharacter::BeginPlay()
 	SpringArmComponent->bUsePawnControlRotation = false;
 	SpringArmComponent->bInheritYaw = false;
 
-	// constraint force character to never om on Y plane! ever!
+	// constraint force character to never move on the Y plane! ever!
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->SetPlaneConstraintNormal(FVector(0, 1, 0));
 }

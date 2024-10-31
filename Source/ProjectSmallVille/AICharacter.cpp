@@ -17,7 +17,7 @@ AAICharacter::AAICharacter()
 void AAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -61,14 +61,16 @@ void AAICharacter::Fire()
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
-			FRotator MuzzleRotation = FRotator(-1.f, 0.f, 0.f);
+
+			FVector ProjectileSpawnLocation = GetActorLocation() + MuzzleOffset;
+			FRotator MuzzleRotation = FRotator(0.f, 0.f, 0.f);
 
 			// spawn projectile at muzzle
-			AAIProjectile* Projectile = World->SpawnActor<AAIProjectile>(ProjectileClass, GetActorLocation(), MuzzleRotation, SpawnParams);
+			AAIProjectile* Projectile = World->SpawnActor<AAIProjectile>(ProjectileClass, ProjectileSpawnLocation, MuzzleRotation, SpawnParams);
 			if (Projectile)
 			{
-				FVector LaunchDirection = MuzzleRotation.Vector();
-				Projectile->FireInDirection(LaunchDirection);
+				FVector LaunchDirection = MuzzleRotation.Vector();				
+				Projectile->FireInDirection(GetActorForwardVector());
 			}
 		}
 	}

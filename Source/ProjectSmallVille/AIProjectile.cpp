@@ -26,8 +26,8 @@ AAIProjectile::AAIProjectile()
 	{
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 		ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-		ProjectileMovementComponent->InitialSpeed = 3000.f;
-		ProjectileMovementComponent->MaxSpeed = 3000.f;
+		ProjectileMovementComponent->InitialSpeed = 30.f;
+		ProjectileMovementComponent->MaxSpeed = 30.f;
 		ProjectileMovementComponent->bRotationFollowsVelocity = true;
 		ProjectileMovementComponent->bShouldBounce = true;
 		ProjectileMovementComponent->Bounciness = 3.0f;
