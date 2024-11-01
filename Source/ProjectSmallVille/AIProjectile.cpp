@@ -17,7 +17,10 @@ AAIProjectile::AAIProjectile()
 	if (!CollisionComponent)
 	{
 		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectileComponent"));
+		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 		CollisionComponent->InitSphereRadius(15.f);
+		CollisionComponent->OnComponentHit.AddDynamic(this, &AAIProjectile::OnHit);
+
 		// sets the rootcomponent to be the collisioncomponent
 		RootComponent = CollisionComponent;
 	}
@@ -53,6 +56,9 @@ AAIProjectile::AAIProjectile()
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
 
 	}
+
+	// how long the projectile to exist in seconds
+	InitialLifeSpan = 3.0f;
 }
 
 // Called when the game starts or when spawned
@@ -72,5 +78,15 @@ void AAIProjectile::Tick(float DeltaTime)
 void AAIProjectile::FireInDirection(const FVector& FireDirection)
 {
 	ProjectileMovementComponent->Velocity = FireDirection * ProjectileMovementComponent->InitialSpeed;
+}
+
+void AAIProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor != this && !OtherComponent->IsSimulatingPhysics())
+	{
+		//OtherComponent->AddImpulseAtLocation()
+		UE_LOG(LogTemp, Warning, TEXT("player hit!"));
+	}
+	Destroy();
 }
 

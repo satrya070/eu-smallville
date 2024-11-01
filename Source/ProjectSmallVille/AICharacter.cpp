@@ -62,9 +62,9 @@ void AAICharacter::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
 
-			FVector ProjectileSpawnLocation = GetActorLocation() + MuzzleOffset;
+			FVector ProjectileSpawnLocation = GetActorLocation() + (GetActorForwardVector() * 100.f);
 			FRotator MuzzleRotation = FRotator(0.f, 0.f, 0.f);
-
+		
 			// spawn projectile at muzzle
 			AAIProjectile* Projectile = World->SpawnActor<AAIProjectile>(ProjectileClass, ProjectileSpawnLocation, MuzzleRotation, SpawnParams);
 			if (Projectile)
