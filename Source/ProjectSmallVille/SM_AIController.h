@@ -13,5 +13,11 @@ UCLASS()
 class PROJECTSMALLVILLE_API ASM_AIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category=AI)
+	UBehaviorTree* BehaviorTree;
 };
