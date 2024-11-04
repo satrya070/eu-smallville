@@ -85,24 +85,44 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void ASMMainCharacter::MoveForward(float Value)
 {
-
-	if (Value > 0.f && GetActorForwardVector().X < 0.f)
+	// Forward as in positively in the world X-axis
+	if (bIsMovingBackwards)
 	{
-		GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
+		return;
 	}
-	//UE_LOG(LogTemp, Display, TEXT("actor moveforward vec: %s"), *GetActorForwardVector().ToString());
+	else
+	{
+		// face forward first if needed
+		if (Value > 0.f && GetActorForwardVector().X < 0.f)
+		{
+			GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
+		}
 
-	AddMovementInput(GetActorForwardVector(), Value);
+		bIsMovingForward = (Value > 0.0f) ? true : false;
+
+		AddMovementInput(GetActorForwardVector(), Value);
+	}	
 }
 
 void ASMMainCharacter::MoveBackwards(float Value)
 {
-	if (Value > 0.0f && GetActorForwardVector().X == 1)
+	// Backwards as in negatively in the world X-axis
+	if (bIsMovingForward)
 	{
-		GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
+		return;
 	}
+	else
+	{
+		// face backwards first if needed
+		if (Value > 0.0f && GetActorForwardVector().X == 1)
+		{
+			GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
+		}
 
-	AddMovementInput(GetActorForwardVector(), Value);
+		bIsMovingBackwards = (Value > 0.0f) ? true : false;
+
+		AddMovementInput(GetActorForwardVector(), Value);
+	}
 }
 
 void ASMMainCharacter::StartJump()
