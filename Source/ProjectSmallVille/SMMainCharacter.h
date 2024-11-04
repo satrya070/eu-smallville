@@ -35,16 +35,6 @@ public:
 	float CurrentHealth;
 
 
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class USpringArmComponent* SpringArmComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class UCameraComponent* CameraComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
-	UStaticMesh* MeshComp;*/
-
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -70,7 +60,6 @@ public:
 
 	void MoveForward(float Value);
 	void MoveBackwards(float Value);
-	void MoveRight(float Value);
 
 	void StartJump();
 	void StopJump();

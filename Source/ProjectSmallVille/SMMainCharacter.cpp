@@ -128,6 +128,12 @@ void ASMMainCharacter::MoveBackwards(float Value)
 void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
+
+	// If shoveAnimation is playing during start jump, blend it out animation
+	if (ShoveAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(ShoveAnimation)))
+	{
+		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, ShoveAnimation);
+	}
 }
 
 void ASMMainCharacter::StopJump()
