@@ -86,7 +86,7 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void ASMMainCharacter::MoveForward(float Value)
 {
 	// Forward as in positively in the world X-axis
-	if (bIsMovingBackwards)
+	if (bIsMovingBackwards || IsHanging)
 	{
 		return;
 	}
@@ -107,7 +107,7 @@ void ASMMainCharacter::MoveForward(float Value)
 void ASMMainCharacter::MoveBackwards(float Value)
 {
 	// Backwards as in negatively in the world X-axis
-	if (bIsMovingForward)
+	if (bIsMovingForward || IsHanging)
 	{
 		return;
 	}

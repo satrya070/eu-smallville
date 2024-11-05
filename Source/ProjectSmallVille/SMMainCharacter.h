@@ -67,7 +67,7 @@ public:
 	void Crouch();
 	void UnCrouch();
 
-	// attacks
+	// attacksisrot
 	void Push();
 	void IsTurning(float DeltaTime);
 
@@ -75,6 +75,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	bool IsRotating;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsHanging;
 
 private:
 	FTimerHandle TimerHandle;
