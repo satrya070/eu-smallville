@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float Damage;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AAIProjectile> ProjectileClass;

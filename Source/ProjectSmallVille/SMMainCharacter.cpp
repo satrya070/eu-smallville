@@ -215,3 +215,18 @@ void ASMMainCharacter::DisableMovement()
 	}
 }
 
+float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	Health -= DamageAmount;
+
+	if (Health <= 0)
+	{
+		//Destroy();
+		UE_LOG(LogTemp, Display, TEXT("DED"));
+	}
+
+	return DamageAmount;
+}
+

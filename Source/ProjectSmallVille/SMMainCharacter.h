@@ -29,7 +29,7 @@ public:
 	UAnimMontage* ShoveAnimation;
 
 	UPROPERTY(EditAnywhere)
-	float Maxhealth = 100.f;
+	float Health = 100.f;
 
 	UPROPERTY(VisibleAnywhere)
 	float CurrentHealth;
@@ -78,6 +78,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsHanging;
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 private:
 	FTimerHandle TimerHandle;
