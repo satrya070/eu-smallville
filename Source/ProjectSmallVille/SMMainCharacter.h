@@ -26,7 +26,7 @@ public:
 	UCameraComponent* CameraComponent;
 
 	UPROPERTY(EditAnywhere, Category="Attacks")
-	UAnimMontage* ShoveAnimation;
+	UAnimMontage* HandAttackAnimation;
 
 	UPROPERTY(EditAnywhere)
 	float Health = 100.f;
@@ -68,7 +68,7 @@ public:
 	void UnCrouch();
 
 	// attacksisrot
-	void Push();
+	void Punch();
 	void IsTurning(float DeltaTime);
 
 	void SmoothRotate(float DeltaTime);

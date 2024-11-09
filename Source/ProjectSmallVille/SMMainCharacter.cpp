@@ -80,7 +80,7 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASMMainCharacter::Crouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASMMainCharacter::UnCrouch);
 
-	PlayerInputComponent->BindAction("Push", IE_Pressed, this, &ASMMainCharacter::Push);
+	PlayerInputComponent->BindAction("Punch", IE_Pressed, this, &ASMMainCharacter::Punch);
 }
 
 void ASMMainCharacter::MoveForward(float Value)
@@ -129,10 +129,10 @@ void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
 
-	// If shoveAnimation is playing during start jump, blend it out animation
-	if (ShoveAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(ShoveAnimation)))
+	// If shoveAnimation is playing during start jump, lock attack
+	if (HandAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation)))
 	{
-		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, ShoveAnimation);
+		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, HandAttackAnimation);
 	}
 }
 
@@ -151,13 +151,13 @@ void ASMMainCharacter::UnCrouch()
 	Super::UnCrouch();
 }
 
-void ASMMainCharacter::Push()
+void ASMMainCharacter::Punch()
 {
-	if (GetMesh() && ShoveAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
+	if (GetMesh() && HandAttackAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
 	{
 		if (!GetMesh()->GetAnimInstance()->IsAnyMontagePlaying())
 		{
-			GetMesh()->GetAnimInstance()->Montage_Play(ShoveAnimation);
+			GetMesh()->GetAnimInstance()->Montage_Play(HandAttackAnimation, 2.0f);
 		}
 	}
 }
