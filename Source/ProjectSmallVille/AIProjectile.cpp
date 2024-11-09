@@ -2,6 +2,7 @@
 
 
 #include "AIProjectile.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAIProjectile::AAIProjectile()
@@ -85,7 +86,12 @@ void AAIProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	if (OtherActor != this && !OtherComponent->IsSimulatingPhysics())
 	{
 		//OtherComponent->AddImpulseAtLocation()
-		UE_LOG(LogTemp, Warning, TEXT("player hit!"));
+
+		if (OtherActor->ActorHasTag("Player"))
+		{
+			UGameplayStatics::ApplyDamage(OtherActor, DamagePoints, nullptr, this, UDamageType::StaticClass());
+			UE_LOG(LogTemp, Warning, TEXT("Projectile: did 10 damage!"));
+		}
 	}
 	Destroy();
 }
