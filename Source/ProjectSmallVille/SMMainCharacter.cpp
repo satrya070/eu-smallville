@@ -80,7 +80,9 @@ void ASMMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASMMainCharacter::Crouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASMMainCharacter::UnCrouch);
 
+	// bind attacks
 	PlayerInputComponent->BindAction("Punch", IE_Pressed, this, &ASMMainCharacter::Punch);
+	PlayerInputComponent->BindAction("Kick", IE_Pressed, this, &ASMMainCharacter::Kick);
 }
 
 void ASMMainCharacter::MoveForward(float Value)
@@ -129,10 +131,16 @@ void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
 
-	// If shoveAnimation is playing during start jump, lock attack
+	// Cancel punch attack on jump
 	if (HandAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation)))
 	{
 		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, HandAttackAnimation);
+	}
+
+	// Cancel kick attack on jump
+	if (KickAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(KickAttackAnimation)))
+	{
+		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, KickAttackAnimation);
 	}
 }
 
@@ -158,6 +166,17 @@ void ASMMainCharacter::Punch()
 		if (!GetMesh()->GetAnimInstance()->IsAnyMontagePlaying())
 		{
 			GetMesh()->GetAnimInstance()->Montage_Play(HandAttackAnimation, 2.0f);
+		}
+	}
+}
+
+void ASMMainCharacter::Kick()
+{
+	if (GetMesh() && KickAttackAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
+	{
+		if (!GetMesh()->GetAnimInstance()->IsAnyMontagePlaying())
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(KickAttackAnimation);
 		}
 	}
 }

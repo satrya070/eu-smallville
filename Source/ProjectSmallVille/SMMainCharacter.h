@@ -28,6 +28,9 @@ public:
 	UPROPERTY(EditAnywhere, Category="Attacks")
 	UAnimMontage* HandAttackAnimation;
 
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	UAnimMontage* KickAttackAnimation;
+
 	UPROPERTY(EditAnywhere)
 	float Health = 100.f;
 
@@ -67,8 +70,8 @@ public:
 	void Crouch();
 	void UnCrouch();
 
-	// attacksisrot
 	void Punch();
+	void Kick();
 	void IsTurning(float DeltaTime);
 
 	void SmoothRotate(float DeltaTime);
