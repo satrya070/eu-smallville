@@ -238,9 +238,9 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	Health -= DamageAmount;
+	CurrentHealth -= DamageAmount;
 
-	if (Health <= 0)
+	if (CurrentHealth <= 0)
 	{
 		//Destroy();
 		UE_LOG(LogTemp, Display, TEXT("DED"));

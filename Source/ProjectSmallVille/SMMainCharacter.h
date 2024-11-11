@@ -31,11 +31,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	UAnimMontage* KickAttackAnimation;
 
-	UPROPERTY(EditAnywhere)
-	float Health = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CurrentHealth = 100.f;
 
-	UPROPERTY(VisibleAnywhere)
-	float CurrentHealth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxHealth = 100.f;
 
 
 protected:
