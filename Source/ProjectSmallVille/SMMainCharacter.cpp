@@ -60,7 +60,6 @@ void ASMMainCharacter::Tick(float DeltaTime)
 	//SmoothRotate(DeltaTime);
 	//IsTurning(DeltaTime);
 	//SmoothRotate(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -234,16 +233,22 @@ void ASMMainCharacter::DisableMovement()
 	}
 }
 
+void ASMMainCharacter::HandleDeath()
+{
+	Destroy();
+}
+
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
 	CurrentHealth -= DamageAmount;
 
+	// call on death
 	if (CurrentHealth <= 0)
 	{
-		//Destroy();
-		UE_LOG(LogTemp, Display, TEXT("DED"));
+		// awaits the respawn time before calling destroy(which directly calls respawns)
+		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &ASMMainCharacter::HandleDeath, 2.f, false);
 	}
 
 	return DamageAmount;

@@ -95,4 +95,7 @@ private:
 
 	void EnableMovement();
 	void DisableMovement();
+
+	FTimerHandle RespawnTimerHandle;
+	void HandleDeath();
 };
