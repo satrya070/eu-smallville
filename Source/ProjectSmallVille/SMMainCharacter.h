@@ -85,8 +85,6 @@ public:
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 private:
-	FTimerHandle TimerHandle;
-
 	UPROPERTY(EditAnywhere)
 	float RotateSpeed = 2.5f;
 
