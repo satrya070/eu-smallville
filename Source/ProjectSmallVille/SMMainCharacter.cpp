@@ -12,6 +12,7 @@
 #include "TimerManager.h"
 #include "SMPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 // Sets default values
@@ -55,11 +56,29 @@ void ASMMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//IsTurning(DeltaTime);
-	//UE_LOG(LogTemp, Display, TEXT("%s"), *GetActorRotation().ToString());
-	//SmoothRotate(DeltaTime);
-	//IsTurning(DeltaTime);
-	//SmoothRotate(DeltaTime);
+	if (bIsRotating == true)
+	{
+		//FRotator TargetRotation = (GetActorForwardVector().X < 0.f) ? FRotator(0.f, 0.f, 0.f) : FRotator(0.f, 180.f, 0.f);
+		//FRotator TargetRotation = FRotator(0.f, 0.f, 0.f);
+		FRotator CurrentRotation = GetActorRotation();
+		float Tolerance = 1.0f;
+		
+		//float tocheck = CurrentRotation.Yaw - FacingDirection.Yaw;
+		//UE_LOG(LogTemp, Display, TEXT("direction difference: %f"), tocheck);
+
+		if (FMath::Abs(CurrentRotation.Yaw - FacingDirection.Yaw) > Tolerance)
+		{
+			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, FacingDirection, DeltaTime, 7.0f);
+			SetActorRotation(NewRotation);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Display, TEXT("Done rotating"));
+			bIsRotating = false;
+		}
+
+		//UE_LOG(LogTemp, Display, TEXT("direction difference: %s"), bIsRotating ? TEXT("true") : TEXT("false"));
+	}
 }
 
 // Called to bind functionality to input
@@ -93,10 +112,13 @@ void ASMMainCharacter::MoveForward(float Value)
 	}
 	else
 	{
-		// face forward first if needed
-		if (Value > 0.f && GetActorForwardVector().X < 0.f)
+		// call rotation to front first if facing backwards(yaw 180)
+		if (Value > 0.f && FacingDirection.Yaw > 179.f)
 		{
-			GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
+			//GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
+			bIsRotating = true;
+			FacingDirection = FRotator(0.f, 0.f, 0.f);
+			UE_LOG(LogTemp, Display, TEXT("Rotating"));
 		}
 
 		bIsMovingForward = (Value > 0.0f) ? true : false;
@@ -114,10 +136,12 @@ void ASMMainCharacter::MoveBackwards(float Value)
 	}
 	else
 	{
-		// face backwards first if needed
-		if (Value > 0.0f && GetActorForwardVector().X == 1)
+		// call rotation first if facing forward(yaw 0)
+		if (Value > 0.0f && FacingDirection.Yaw < 1.f)
 		{
-			GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
+			//GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
+			bIsRotating = true;
+			FacingDirection = FRotator(0.f, 180.f, 0.f);
 		}
 
 		bIsMovingBackwards = (Value > 0.0f) ? true : false;
@@ -180,41 +204,6 @@ void ASMMainCharacter::Kick()
 	}
 }
 
-void ASMMainCharacter::IsTurning(float DeltaTime)
-{
-	FVector world_forward_velocity = GetVelocity();
-
-	if (world_forward_velocity.X < 0.f)
-	{
-		IsRotating = true;
-		DisableMovement();
-	}
-}
-
-
-void ASMMainCharacter::SmoothRotate(float DeltaTime)
-{
-	if (IsRotating == true)
-	{
-		FRotator CurrentRotation = GetActorRotation();
-		FRotator TargetRotation = FRotator(0, 180.f, 0);
-
-		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotateSpeed);
-		//UE_LOG(LogTemp, Display, TEXT("setting new rotation: %s"), *GetActorRotation().ToString());
-		//UE_LOG(LogTemp, Display, TEXT("actor rotation: %s"), *GetActorRotation().ToString());
-		GetController()->SetControlRotation(NewRotation);
-
-		if (CurrentRotation.Equals(NewRotation, 0.01f))
-		{
-			UE_LOG(LogTemp, Display, TEXT("rotation complete"));
-			IsRotating = false;
-			EnableMovement();
-			//this->SetActorRotation(CurrentRotation.Yaw);
-			SetActorRotation(FRotator(0, 180.f, 0));
-		}
-	}
-}
-
 void ASMMainCharacter::EnableMovement()
 {
 	ASMPlayerController* PlayerController = Cast<ASMPlayerController>(GetController());
@@ -236,6 +225,15 @@ void ASMMainCharacter::DisableMovement()
 void ASMMainCharacter::HandleDeath()
 {
 	Destroy();
+}
+
+void ASMMainCharacter::SmoothRotateTo(FRotator TargetRotation, float DeltaTime, float RotationSpeed)
+{
+	FRotator CurrentRotation = GetActorRotation();
+
+	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
+
+	SetActorRotation(NewRotation);
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

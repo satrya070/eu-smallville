@@ -72,12 +72,9 @@ public:
 
 	void Punch();
 	void Kick();
-	void IsTurning(float DeltaTime);
-
-	void SmoothRotate(float DeltaTime);
 
 	UPROPERTY(BlueprintReadOnly)
-	bool IsRotating;
+	bool bIsRotating;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsHanging;
@@ -96,4 +93,9 @@ private:
 
 	FTimerHandle RespawnTimerHandle;
 	void HandleDeath();
+
+	void SmoothRotateTo(FRotator TargetRotation, float DeltaTime, float RotationSpeed);
+
+	// yaw of 0.f being front(facing right), 180.f facing back(facing left)
+	FRotator FacingDirection = FRotator(0.f, 0.f, 0.f);
 };
