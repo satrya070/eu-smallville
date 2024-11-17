@@ -58,8 +58,7 @@ void ASMMainCharacter::Tick(float DeltaTime)
 
 	if (bIsRotating == true)
 	{
-		//FRotator TargetRotation = (GetActorForwardVector().X < 0.f) ? FRotator(0.f, 0.f, 0.f) : FRotator(0.f, 180.f, 0.f);
-		//FRotator TargetRotation = FRotator(0.f, 0.f, 0.f);
+		//TODO: properly put this in SmoothRotateTo function
 		FRotator CurrentRotation = GetActorRotation();
 		float Tolerance = 1.0f;
 		
@@ -158,12 +157,20 @@ void ASMMainCharacter::StartJump()
 	if (HandAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation)))
 	{
 		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, HandAttackAnimation);
+		
+		// On end of the animNotify, speed is temporarily decreased to 100.f
+		// this needs to be set back to 600.f on an interrupted cancel animation
+		GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	}
 
 	// Cancel kick attack on jump
 	if (KickAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(KickAttackAnimation)))
 	{
 		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, KickAttackAnimation);
+
+		// On end of the animNotify, speed is temporarily decreased to 100.f
+		// this needs to be set back to 600.f on an interrupted cancel animation
+		GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	}
 }
 
