@@ -67,7 +67,7 @@ void ASMMainCharacter::Tick(float DeltaTime)
 
 		if (FMath::Abs(CurrentRotation.Yaw - FacingDirection.Yaw) > Tolerance)
 		{
-			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, FacingDirection, DeltaTime, 7.0f);
+			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, FacingDirection, DeltaTime, RotateSpeed);
 			SetActorRotation(NewRotation);
 		}
 		else

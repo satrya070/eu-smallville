@@ -83,7 +83,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float RotateSpeed = 2.5f;
+	float RotateSpeed = 10.f;
 
 	bool bIsMovingForward;
 	bool bIsMovingBackwards;
