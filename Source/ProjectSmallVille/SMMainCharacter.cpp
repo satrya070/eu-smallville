@@ -61,9 +61,6 @@ void ASMMainCharacter::Tick(float DeltaTime)
 		//TODO: properly put this in SmoothRotateTo function
 		FRotator CurrentRotation = GetActorRotation();
 		float Tolerance = 1.0f;
-		
-		//float tocheck = CurrentRotation.Yaw - FacingDirection.Yaw;
-		//UE_LOG(LogTemp, Display, TEXT("direction difference: %f"), tocheck);
 
 		if (FMath::Abs(CurrentRotation.Yaw - FacingDirection.Yaw) > Tolerance)
 		{
@@ -248,6 +245,18 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
 	CurrentHealth -= DamageAmount;
+
+	// play hit montage
+	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
+	{
+		// cancel punch/kick animation if getting hit & properly reset walk speed
+		if (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation) || GetMesh()->GetAnimInstance()->Montage_IsPlaying(KickAttackAnimation))
+		{
+			GetCharacterMovement()->MaxWalkSpeed = 600.f;
+		}
+
+		GetMesh()->GetAnimInstance()->Montage_Play(GetHitAnimation);
+	}
 
 	// call on death
 	if (CurrentHealth <= 0)

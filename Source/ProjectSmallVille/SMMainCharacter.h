@@ -31,6 +31,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Attacks")
 	UAnimMontage* KickAttackAnimation;
 
+	UPROPERTY(EditAnywhere, Category = "Attacks")
+	UAnimMontage* GetHitAnimation;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentHealth = 100.f;
 
