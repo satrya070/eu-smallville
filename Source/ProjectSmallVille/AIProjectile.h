@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/BoxComponent.h"
 
 #include "AIProjectile.generated.h"
 
@@ -27,14 +28,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleDefaultsOnly, Category="Projectile")
-	USphereComponent* CollisionComponent;
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	UBoxComponent* BoxCollider;
+
+	//UPROPERTY(VisibleDefaultsOnly, Category="Projectile")
+	//USphereComponent* CollisionComponent;
 
 	UPROPERTY(VisibleAnywhere, Category="Projectile")
 	UProjectileMovementComponent* ProjectileMovementComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category=Projectile)
-	UStaticMeshComponent* ProjectileMeshComponent;
+	//UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	//UStaticMeshComponent* ProjectileMeshComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	UMaterialInstanceDynamic* ProjectileMaterialInstance;
