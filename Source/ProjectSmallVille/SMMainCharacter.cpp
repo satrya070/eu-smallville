@@ -58,22 +58,7 @@ void ASMMainCharacter::Tick(float DeltaTime)
 
 	if (bIsRotating == true)
 	{
-		//TODO: properly put this in SmoothRotateTo function
-		FRotator CurrentRotation = GetActorRotation();
-		float Tolerance = 1.0f;
-
-		if (FMath::Abs(CurrentRotation.Yaw - FacingDirection.Yaw) > Tolerance)
-		{
-			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, FacingDirection, DeltaTime, RotateSpeed);
-			SetActorRotation(NewRotation);
-		}
-		else
-		{
-			UE_LOG(LogTemp, Display, TEXT("Done rotating"));
-			bIsRotating = false;
-		}
-
-		//UE_LOG(LogTemp, Display, TEXT("direction difference: %s"), bIsRotating ? TEXT("true") : TEXT("false"));
+		SmoothRotateTo(DeltaTime);
 	}
 }
 
@@ -231,13 +216,21 @@ void ASMMainCharacter::HandleDeath()
 	Destroy();
 }
 
-void ASMMainCharacter::SmoothRotateTo(FRotator TargetRotation, float DeltaTime, float RotationSpeed)
+void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
 {
 	FRotator CurrentRotation = GetActorRotation();
+	float Tolerance = 1.0f;
 
-	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, RotationSpeed);
-
-	SetActorRotation(NewRotation);
+	if (FMath::Abs(CurrentRotation.Yaw - FacingDirection.Yaw) > Tolerance)
+	{
+		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, FacingDirection, DeltaTime, RotateSpeed);
+		SetActorRotation(NewRotation);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Done rotating"));
+		bIsRotating = false;
+	}
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

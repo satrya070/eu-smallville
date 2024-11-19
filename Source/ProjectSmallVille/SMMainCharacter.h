@@ -97,7 +97,7 @@ private:
 	FTimerHandle RespawnTimerHandle;
 	void HandleDeath();
 
-	void SmoothRotateTo(FRotator TargetRotation, float DeltaTime, float RotationSpeed);
+	void SmoothRotateTo(float DeltaTime);
 
 	// yaw of 0.f being front(facing right), 180.f facing back(facing left)
 	FRotator FacingDirection = FRotator(0.f, 0.f, 0.f);

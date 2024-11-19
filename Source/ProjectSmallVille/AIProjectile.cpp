@@ -55,7 +55,6 @@ AAIProjectile::AAIProjectile()
 		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 		ProjectileMeshComponent->SetupAttachment(RootComponent);
-
 	}
 
 	// how long the projectile to exist in seconds
