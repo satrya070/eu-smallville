@@ -81,10 +81,8 @@ void AAICharacter::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
 
-			//UE_LOG(LogTemp, Display, TEXT("spawnlocation: %s"), *SpawnLocation.ToString());
-
-			//if(FacingDire)
-			FVector ProjectileSpawnLocation = GetActorLocation() + MuzzleOffset; //GunMeshComponent->GetComponentLocation() + SpawnLocation;// GetActorLocation() + (GetActorForwardVector() * 100.f);
+			// Only the X offset gets mirrored, X & Y stay the same on both sides to keep it on the same height and distance
+			FVector ProjectileSpawnLocation = (FacingDirection.Yaw < 1.f) ? (GetActorLocation() + FVector(MuzzleOffset.X, MuzzleOffset.Y, MuzzleOffset.Z)) : (GetActorLocation() - FVector(MuzzleOffset.X, -MuzzleOffset.Y, -MuzzleOffset.Z));				
 			FRotator MuzzleRotation = FRotator(0.f, 0.f, 0.f);
 		
 			// spawn projectile at muzzle
