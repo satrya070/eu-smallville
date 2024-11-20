@@ -19,6 +19,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Override the OnConstruction function
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

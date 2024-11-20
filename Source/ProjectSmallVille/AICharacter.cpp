@@ -4,6 +4,8 @@
 #include "AICharacter.h"
 #include "Logging/LogMacros.h"
 #include "AIProjectile.h"
+#include "Engine/staticMeshSocket.h"
+
 
 // Sets default values
 AAICharacter::AAICharacter()
@@ -12,7 +14,11 @@ AAICharacter::AAICharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GunMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMeshComponent"));
-	GunMeshComponent->SetupAttachment(RootComponent);
+	if (GetMesh())
+	{
+		GunMeshComponent->SetupAttachment(GetMesh());
+	}
+	//GunMeshComponent->AttachmentCounter()
 }
 
 // Called when the game starts or when spawned
@@ -21,12 +27,13 @@ void AAICharacter::BeginPlay()
 	Super::BeginPlay();
 
 	UStaticMesh* GunStaticMesh = GunMeshComponent->GetStaticMesh();
-	if (GunStaticMesh)
+}
+
+void AAICharacter::OnConstruction(const FTransform& Transform)
+{
+	if (GetMesh()->DoesSocketExist(TEXT("hand_r")))
 	{
-		if (GunStaticMesh->FindSocket(TEXT("MuzzlePoint")))
-		{
-			UE_LOG(LogTemp, Display, TEXT("found ya sockit!"));
-		}
+		GunMeshComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("hand_r"));
 	}
 }
 
@@ -72,7 +79,9 @@ void AAICharacter::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
 
-			FVector ProjectileSpawnLocation = GetActorLocation() + (GetActorForwardVector() * 100.f);
+			//UE_LOG(LogTemp, Display, TEXT("spawnlocation: %s"), *SpawnLocation.ToString());
+
+			FVector ProjectileSpawnLocation = GetActorLocation() + FVector(200.f, 0.f, 0.f); //GunMeshComponent->GetComponentLocation() + SpawnLocation;// GetActorLocation() + (GetActorForwardVector() * 100.f);
 			FRotator MuzzleRotation = FRotator(0.f, 0.f, 0.f);
 		
 			// spawn projectile at muzzle
