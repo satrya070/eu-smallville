@@ -10,42 +10,16 @@ AAIProjectile::AAIProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// delete if not needed
-	/*if (!RootComponent)
-	{
-		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile"));
-	}*/
-	//CreateDefaultSubobject<USceneComponent>(TEXT("Projectile"));
-
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->SetCollisionProfileName(TEXT("BoxCollision"));
 	BoxCollider->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
-	//BoxCollider->SetGenerateOverlapEvents(false);
-	//BoxCollider->SetNotifyRigidBodyCollision(true);
-	//BoxCollider->SetSimulatePhysics(false);
-	//BoxCollider->OnComponentHit.AddDynamic(this, &AAIProjectile::OnHit);
-	//BoxCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	//CapsuleRoot->InitSphereRadius(15.f);
-	//BoxCollider->SetupAttachment(RootComponent);
+
+	// collider can be directly set as root, no need for scenecomponent container
 	RootComponent = BoxCollider;
-
-
-
-	/*if (!CollisionComponent)
-	{
-		CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectileComponent"));
-		CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
-		CollisionComponent->InitSphereRadius(15.f);
-		CollisionComponent->OnComponentHit.AddDynamic(this, &AAIProjectile::OnHit);
-
-		// sets the rootcomponent to be the collisioncomponent
-		//RootComponent = CollisionComponent;
-	}*/
 
 	if (!ProjectileMovementComponent)
 	{
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
-		//ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 		ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
 		ProjectileMovementComponent->InitialSpeed = 100.f;
 		ProjectileMovementComponent->MaxSpeed = 100.f;
@@ -54,25 +28,6 @@ AAIProjectile::AAIProjectile()
 		ProjectileMovementComponent->Bounciness = 3.0f;
 		ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
 	}
-
-	/*if (!ProjectileMeshComponent)
-	{
-		ProjectileMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ProjectileMeshComponent"));
-		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/AIBlueprints/meshes/Sphere.Sphere'"));
-		if (Mesh.Succeeded())
-		{
-			ProjectileMeshComponent->SetStaticMesh(Mesh.Object);
-		}
-
-		static ConstructorHelpers::FObjectFinder<UMaterial>Material(TEXT("'/Game/AIBlueprints/meshes/Fbx_Default_Material.Fbx_Default_Material'"));
-		if (Material.Succeeded())
-		{
-			ProjectileMaterialInstance = UMaterialInstanceDynamic::Create(Material.Object, ProjectileMeshComponent);
-		}
-		ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
-		ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
-		ProjectileMeshComponent->SetupAttachment(RootComponent);
-	}*/
 
 	// how long the projectile to exist in seconds
 	InitialLifeSpan = 3.0f;
