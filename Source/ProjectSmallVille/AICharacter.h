@@ -34,6 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector MuzzleOffset;
 
+	UPROPERTY(VisibleAnywhere, BlueprintREadOnly, Category="Projectile")
+	UStaticMeshComponent* GunMeshComponent;
+
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 

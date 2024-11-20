@@ -11,6 +11,8 @@ AAICharacter::AAICharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	GunMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GunMeshComponent"));
+	GunMeshComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -18,6 +20,14 @@ void AAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UStaticMesh* GunStaticMesh = GunMeshComponent->GetStaticMesh();
+	if (GunStaticMesh)
+	{
+		if (GunStaticMesh->FindSocket(TEXT("MuzzlePoint")))
+		{
+			UE_LOG(LogTemp, Display, TEXT("found ya sockit!"));
+		}
+	}
 }
 
 // Called every frame
