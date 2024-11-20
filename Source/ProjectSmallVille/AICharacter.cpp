@@ -33,7 +33,7 @@ void AAICharacter::OnConstruction(const FTransform& Transform)
 {
 	if (GetMesh()->DoesSocketExist(TEXT("hand_r")))
 	{
-		GunMeshComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("hand_r"));
+		GunMeshComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("hand_r"));
 	}
 }
 
