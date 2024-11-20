@@ -27,6 +27,8 @@ void AAICharacter::BeginPlay()
 	Super::BeginPlay();
 
 	UStaticMesh* GunStaticMesh = GunMeshComponent->GetStaticMesh();
+
+	// set facing direction
 }
 
 void AAICharacter::OnConstruction(const FTransform& Transform)
@@ -81,7 +83,8 @@ void AAICharacter::Fire()
 
 			//UE_LOG(LogTemp, Display, TEXT("spawnlocation: %s"), *SpawnLocation.ToString());
 
-			FVector ProjectileSpawnLocation = GetActorLocation() + FVector(200.f, 0.f, 0.f); //GunMeshComponent->GetComponentLocation() + SpawnLocation;// GetActorLocation() + (GetActorForwardVector() * 100.f);
+			//if(FacingDire)
+			FVector ProjectileSpawnLocation = GetActorLocation() + MuzzleOffset; //GunMeshComponent->GetComponentLocation() + SpawnLocation;// GetActorLocation() + (GetActorForwardVector() * 100.f);
 			FRotator MuzzleRotation = FRotator(0.f, 0.f, 0.f);
 		
 			// spawn projectile at muzzle

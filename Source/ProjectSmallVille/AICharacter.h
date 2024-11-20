@@ -22,6 +22,9 @@ protected:
 	// Override the OnConstruction function
 	virtual void OnConstruction(const FTransform& Transform) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator FacingDirection;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
