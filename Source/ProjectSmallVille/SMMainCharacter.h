@@ -10,6 +10,8 @@ class USpringArmComponent;
 class UCameraComponent;
 class UStaticMeshComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeath);
+
 UCLASS()
 class PROJECTSMALLVILLE_API ASMMainCharacter : public ACharacter
 {
@@ -44,18 +46,12 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	//virtual void OnStartCrouch override;
 
-	/*virtual void NotifyHit(
-		class UPrimitiveComponent* MyComp,
-		AActor* Other,
-		class UPrimitiveComponent* OtherComp,
-		bool bSelfMoved,
-		FVector HitLocation,
-		FVector HitNormal,
-		FVector NormalImpulse,
-		const FHitResult& Hit
-	) override;*/
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnPlayerDeath OnPlayerDeath;
+
+	//virtual void Die();
+
 
 public:	
 	// Called every frame
