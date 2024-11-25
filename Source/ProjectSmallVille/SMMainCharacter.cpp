@@ -35,8 +35,6 @@ ASMMainCharacter::ASMMainCharacter()
 void ASMMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	//UE_LOG(LogTemp, Display, TEXT("world rotation: %s"), *GetActorRotation().ToString());
-	//UE_LOG(LogTemp, Display, TEXT("relative rotation: %s"), *GetRootComponent()->GetRelativeRotation().ToString());
 
 	SpringArmComponent->bEnableCameraLag = true;
 	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
@@ -49,6 +47,15 @@ void ASMMainCharacter::BeginPlay()
 	// constraint force character to never move on the Y plane! ever!
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->SetPlaneConstraintNormal(FVector(0, 1, 0));
+
+	// bind animation montage function on interupts
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		//AnimInstance->OnMontageBlendingOut.AddDynamic(this, &ASMMainCharacter::OnMontageEnded);
+		AnimInstance->OnMontageEnded.AddDynamic(this, &ASMMainCharacter::OnMontageEnded);
+		UE_LOG(LogTemp, Display, TEXT("anim stuff bounded"));
+	}
 }
 
 // Called every frame
@@ -232,6 +239,11 @@ void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
 		UE_LOG(LogTemp, Display, TEXT("Done rotating"));
 		bIsRotating = false;
 	}
+}
+
+void ASMMainCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	UE_LOG(LogTemp, Display, TEXT("Anim '%s' was '%s' interrupted"), *Montage->GetFName().ToString(), (bInterrupted ? TEXT("YES") : TEXT("NOT")));
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
