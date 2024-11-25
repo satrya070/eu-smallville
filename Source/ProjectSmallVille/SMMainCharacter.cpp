@@ -213,10 +213,8 @@ void ASMMainCharacter::DisableMovement()
 
 void ASMMainCharacter::HandleDeath()
 {
-	Destroy();
-
-	// dispatch event
 	OnPlayerDeath.Broadcast();
+	Destroy();
 }
 
 void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
