@@ -52,7 +52,6 @@ protected:
 
 	//virtual void Die();
 
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -91,6 +90,8 @@ private:
 	void DisableMovement();
 
 	FTimerHandle RespawnTimerHandle;
+
+	UFUNCTION(BlueprintCallable)
 	void HandleDeath();
 
 	void SmoothRotateTo(float DeltaTime);
