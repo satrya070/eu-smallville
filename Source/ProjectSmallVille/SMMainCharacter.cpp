@@ -236,16 +236,18 @@ void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Display, TEXT("Done rotating"));
+		// UE_LOG(LogTemp, Display, TEXT("Done rotating"));
 		bIsRotating = false;
 	}
 }
 
 void ASMMainCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
+	// TODO only has to lock on punch&kick montage
 	bLockDamage = false;
-	UE_LOG(LogTemp, Display, TEXT("Damage Locked again"));
-	//UE_LOG(LogTemp, Display, TEXT("Anim '%s' was '%s' interrupted"), *Montage->GetFName().ToString(), (bInterrupted ? TEXT("YES") : TEXT("NOT")));
+
+	//UE_LOG(LogTemp, Display, TEXT("Damage Locked again"));
+	UE_LOG(LogTemp, Display, TEXT("Damage was locked, finished playing Anim: '%s'"), *Montage->GetFName().ToString());
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

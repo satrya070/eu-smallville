@@ -5,6 +5,8 @@
 #include "Logging/LogMacros.h"
 #include "AIProjectile.h"
 #include "Engine/staticMeshSocket.h"
+#include "SMMainCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -18,7 +20,6 @@ AAICharacter::AAICharacter()
 	{
 		GunMeshComponent->SetupAttachment(GetMesh());
 	}
-	//GunMeshComponent->AttachmentCounter()
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +28,11 @@ void AAICharacter::BeginPlay()
 	Super::BeginPlay();
 
 	UStaticMesh* GunStaticMesh = GunMeshComponent->GetStaticMesh();
+
+	//ASMMainCharacter* Player = Cast<ASMMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	//if (Player) {
+	//	Player->OnPlayerDeath.AddDynamic(this, &AAICharacter::HandlePlayerDeath);
+	//}
 
 	// set facing direction
 }
@@ -94,6 +100,11 @@ void AAICharacter::Fire()
 			}
 		}
 	}
+}
+
+void AAICharacter::HandlePlayerDeath()
+{
+	UE_LOG(LogTemp, Display, TEXT("Handle Player dead*"));
 }
 
 

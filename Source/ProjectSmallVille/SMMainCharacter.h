@@ -42,15 +42,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxHealth = 100.f;
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnPlayerDeath OnPlayerDeath;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnPlayerDeath OnPlayerDeath;
-
-	//virtual void Die();
 
 public:	
 	// Called every frame

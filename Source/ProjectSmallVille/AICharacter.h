@@ -49,6 +49,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float Damage;
 
+	// still needed?
+	UFUNCTION()
+	void HandlePlayerDeath();
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AAIProjectile> ProjectileClass;
