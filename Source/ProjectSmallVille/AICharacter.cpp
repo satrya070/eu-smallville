@@ -107,4 +107,17 @@ void AAICharacter::HandlePlayerDeath()
 	UE_LOG(LogTemp, Display, TEXT("Handle Player dead*"));
 }
 
+bool AAICharacter::PlayerIsAlive()
+{
+	ASMMainCharacter* Player = Cast<ASMMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (Player)
+	{
+		if (Player->CurrentHealth > 0.f)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 

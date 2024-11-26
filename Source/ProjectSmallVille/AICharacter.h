@@ -56,4 +56,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AAIProjectile> ProjectileClass;
+
+private:
+	UFUNCTION(BlueprintCallable)
+	bool PlayerIsAlive();
 };
