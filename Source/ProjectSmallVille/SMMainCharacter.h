@@ -77,6 +77,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsHanging;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bLockDamage;
+
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 private:

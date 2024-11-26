@@ -40,7 +40,7 @@ void ASMMainCharacter::BeginPlay()
 	SpringArmComponent->AddRelativeRotation(FRotator(0.f, -90.f, 0.f));
 
 	//bUseControllerRotationYaw = false;
-	UE_LOG(LogTemp, Display, TEXT("using rotion yaw: %s"), bUseControllerRotationYaw ? TEXT("true") : TEXT("false"));
+	//UE_LOG(LogTemp, Display, TEXT("using rotion yaw: %s"), bUseControllerRotationYaw ? TEXT("true") : TEXT("false"));
 	SpringArmComponent->bUsePawnControlRotation = false;
 	SpringArmComponent->bInheritYaw = false;
 
@@ -106,7 +106,7 @@ void ASMMainCharacter::MoveForward(float Value)
 			//GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
 			bIsRotating = true;
 			FacingDirection = FRotator(0.f, 0.f, 0.f);
-			UE_LOG(LogTemp, Display, TEXT("Rotating"));
+			//UE_LOG(LogTemp, Display, TEXT("Rotating"));
 		}
 
 		bIsMovingForward = (Value > 0.0f) ? true : false;
@@ -243,7 +243,9 @@ void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
 
 void ASMMainCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	UE_LOG(LogTemp, Display, TEXT("Anim '%s' was '%s' interrupted"), *Montage->GetFName().ToString(), (bInterrupted ? TEXT("YES") : TEXT("NOT")));
+	bLockDamage = false;
+	UE_LOG(LogTemp, Display, TEXT("Damage Locked again"));
+	//UE_LOG(LogTemp, Display, TEXT("Anim '%s' was '%s' interrupted"), *Montage->GetFName().ToString(), (bInterrupted ? TEXT("YES") : TEXT("NOT")));
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
