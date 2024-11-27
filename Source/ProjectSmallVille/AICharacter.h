@@ -34,7 +34,7 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Health = 100.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
@@ -64,7 +64,4 @@ private:
 	FTimerHandle TimerToDestroy;
 
 	void HandleDeath();
-
-	UPROPERTY(EditDefaultsOnly)
-	UAnimMontage* DeathAnimation;
 };
