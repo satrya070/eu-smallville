@@ -60,4 +60,11 @@ protected:
 private:
 	UFUNCTION(BlueprintCallable)
 	bool PlayerIsAlive();
+
+	FTimerHandle TimerToDestroy;
+
+	void HandleDeath();
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* DeathAnimation;
 };

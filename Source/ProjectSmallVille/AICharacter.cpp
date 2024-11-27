@@ -68,8 +68,14 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (Health <= 0)
 	{
+		// play dead anim
+		if (GetMesh() && GetMesh()->GetAnimInstance() && DeathAnimation)
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(DeathAnimation);
+		}
 
-		Destroy();
+		GetWorld()->GetTimerManager().SetTimer(TimerToDestroy, this, &AAICharacter::HandleDeath, 2.f, false);
+		//Destroy();
 	}
 
 	return DamageAmount;
@@ -121,4 +127,7 @@ bool AAICharacter::PlayerIsAlive()
 	return false;
 }
 
-
+void AAICharacter::HandleDeath()
+{
+	Destroy();
+}
