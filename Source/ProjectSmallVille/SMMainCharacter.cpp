@@ -284,3 +284,12 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	return DamageAmount;
 }
 
+bool ASMMainCharacter::IsDead()
+{
+	if (CurrentHealth <= 0.f)
+	{
+		return true;
+	}
+	return false;
+}
+

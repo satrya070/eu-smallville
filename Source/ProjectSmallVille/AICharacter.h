@@ -53,6 +53,12 @@ public:
 	UFUNCTION()
 	void HandlePlayerDeath();
 
+	UFUNCTION(BlueprintCallable)
+	bool IsDead();
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	float DespawnTime = 2.f;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AAIProjectile> ProjectileClass;
@@ -64,4 +70,7 @@ private:
 	FTimerHandle TimerToDestroy;
 
 	void HandleDeath();
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* DeathAnimation;
 };

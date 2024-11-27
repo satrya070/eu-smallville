@@ -82,6 +82,8 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintCallable)
+	bool IsDead();
 private:
 	UPROPERTY(EditAnywhere)
 	float RotateSpeed = 10.f;

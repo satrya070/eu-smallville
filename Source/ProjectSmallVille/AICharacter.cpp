@@ -68,7 +68,15 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (Health <= 0)
 	{
-		GetWorld()->GetTimerManager().SetTimer(TimerToDestroy, this, &AAICharacter::HandleDeath, 2.f, false);
+		// play dead anim
+		//* this only for CharacterAI since adding via a statemachine wasnt possible due to
+		// skeletal problems, so this and the despawn time is a hack.
+		if (GetMesh() && GetMesh()->GetAnimInstance() && DeathAnimation)
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(DeathAnimation);
+		}
+
+		GetWorld()->GetTimerManager().SetTimer(TimerToDestroy, this, &AAICharacter::HandleDeath, DespawnTime, false);
 	}
 
 	return DamageAmount;
@@ -105,6 +113,15 @@ void AAICharacter::Fire()
 void AAICharacter::HandlePlayerDeath()
 {
 	UE_LOG(LogTemp, Display, TEXT("Handle Player dead*"));
+}
+
+bool AAICharacter::IsDead()
+{
+	if (Health <= 0.f)
+	{
+		return true;
+	}
+	return false;
 }
 
 bool AAICharacter::PlayerIsAlive()
