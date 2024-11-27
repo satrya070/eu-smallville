@@ -271,6 +271,12 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	// call on death
 	if (CurrentHealth <= 0)
 	{
+		// play death animation
+		if (GetMesh() && GetMesh()->GetAnimInstance() && DieAnimation && !GetCharacterMovement()->IsFalling())
+		{
+			GetMesh()->GetAnimInstance()->Montage_Play(DieAnimation);
+		}
+
 		// awaits the respawn time before calling destroy(which directly calls respawns)
 		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &ASMMainCharacter::HandleDeath, 2.f, false);
 	}

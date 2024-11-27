@@ -34,7 +34,7 @@ void AAICharacter::BeginPlay()
 	//	Player->OnPlayerDeath.AddDynamic(this, &AAICharacter::HandlePlayerDeath);
 	//}
 
-	// set facing direction
+	// set facing direction(if needed)
 }
 
 void AAICharacter::OnConstruction(const FTransform& Transform)
@@ -68,6 +68,7 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (Health <= 0)
 	{
+
 		Destroy();
 	}
 

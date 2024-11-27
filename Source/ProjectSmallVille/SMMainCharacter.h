@@ -27,14 +27,17 @@ public:
 	UPROPERTY(EditAnywhere, Category="Components")
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(EditAnywhere, Category="Attacks")
+	UPROPERTY(EditAnywhere, Category="Animations")
 	UAnimMontage* HandAttackAnimation;
 
-	UPROPERTY(EditAnywhere, Category = "Attacks")
+	UPROPERTY(EditAnywhere, Category = "Animations")
 	UAnimMontage* KickAttackAnimation;
 
-	UPROPERTY(EditAnywhere, Category = "Attacks")
+	UPROPERTY(EditAnywhere, Category = "Animations")
 	UAnimMontage* GetHitAnimation;
+
+	UPROPERTY(EditAnywhere, Category = "Animations")
+	UAnimMontage* DieAnimation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentHealth = 100.f;
