@@ -257,7 +257,7 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	CurrentHealth -= DamageAmount;
 
 	// play hit montage
-	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling())
+	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling() && !IsDead())
 	{
 		// cancel punch/kick animation if getting hit & properly reset walk speed
 		if (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation) || GetMesh()->GetAnimInstance()->Montage_IsPlaying(KickAttackAnimation))
@@ -272,10 +272,10 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	if (CurrentHealth <= 0)
 	{
 		// play death animation
-		if (GetMesh() && GetMesh()->GetAnimInstance() && DieAnimation && !GetCharacterMovement()->IsFalling())
+		/*if (GetMesh() && GetMesh()->GetAnimInstance() && DieAnimation && !GetCharacterMovement()->IsFalling())
 		{
 			GetMesh()->GetAnimInstance()->Montage_Play(DieAnimation);
-		}
+		}*/
 
 		// awaits the respawn time before calling destroy(which directly calls respawns)
 		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &ASMMainCharacter::HandleDeath, 2.f, false);
