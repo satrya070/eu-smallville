@@ -63,8 +63,13 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 {
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	
+	//UE_LOG(LogTemp, Display, TEXT("AI take damage"));
+	if (GetMesh() && GetMesh()->GetAnimInstance() && GetHitAnimation)
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(GetHitAnimation, 1.f);
+	}
+
 	Health = Health - DamageAmount;
-	//UE_LOG(LogTemp, Display, TEXT("AI Health is: %s"), Health);
 
 	if (Health <= 0)
 	{

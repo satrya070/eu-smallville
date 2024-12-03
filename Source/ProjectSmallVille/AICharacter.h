@@ -73,4 +73,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* DeathAnimation;
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* GetHitAnimation;
 };
