@@ -106,4 +106,6 @@ private:
 
 	UFUNCTION()
 	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	void CancelAnimation(UAnimMontage* PlayingAnimation);
 };

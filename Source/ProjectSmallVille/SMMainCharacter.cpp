@@ -96,6 +96,7 @@ void ASMMainCharacter::MoveForward(float Value)
 	// Forward as in positively in the world X-axis
 	if (bIsMovingBackwards || IsHanging)
 	{
+		// dont allow forward while backwards key is pressed
 		return;
 	}
 	else
@@ -103,9 +104,9 @@ void ASMMainCharacter::MoveForward(float Value)
 		// call rotation to front first if facing backwards(yaw 180)
 		if (Value > 0.f && FacingDirection.Yaw > 179.f)
 		{
-			//GetController()->SetControlRotation(FRotator(0.f, 0.f, 0.f));
 			bIsRotating = true;
 			FacingDirection = FRotator(0.f, 0.f, 0.f);
+			CancelAnimation(GetHitAnimation);
 			//UE_LOG(LogTemp, Display, TEXT("Rotating"));
 		}
 
@@ -120,6 +121,7 @@ void ASMMainCharacter::MoveBackwards(float Value)
 	// Backwards as in negatively in the world X-axis
 	if (bIsMovingForward || IsHanging)
 	{
+		// dont allow backwards while forward key is pressed
 		return;
 	}
 	else
@@ -127,9 +129,9 @@ void ASMMainCharacter::MoveBackwards(float Value)
 		// call rotation first if facing forward(yaw 0)
 		if (Value > 0.0f && FacingDirection.Yaw < 1.f)
 		{
-			//GetController()->SetControlRotation(FRotator(0.f, 180.f, 0.f));
 			bIsRotating = true;
 			FacingDirection = FRotator(0.f, 180.f, 0.f);
+			CancelAnimation(GetHitAnimation);
 		}
 
 		bIsMovingBackwards = (Value > 0.0f) ? true : false;
@@ -142,25 +144,9 @@ void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
 
-	// Cancel punch attack on jump
-	if (HandAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(HandAttackAnimation)))
-	{
-		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, HandAttackAnimation);
-		
-		// On end of the animNotify, speed is temporarily decreased to 100.f
-		// this needs to be set back to 600.f on an interrupted cancel animation
-		GetCharacterMovement()->MaxWalkSpeed = 600.f;
-	}
-
-	// Cancel kick attack on jump
-	if (KickAttackAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(KickAttackAnimation)))
-	{
-		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, KickAttackAnimation);
-
-		// On end of the animNotify, speed is temporarily decreased to 100.f
-		// this needs to be set back to 600.f on an interrupted cancel animation
-		GetCharacterMovement()->MaxWalkSpeed = 600.f;
-	}
+	// Cancel punch/kick attacks on jump
+	CancelAnimation(HandAttackAnimation);
+	CancelAnimation(KickAttackAnimation);
 }
 
 void ASMMainCharacter::StopJump()
@@ -248,6 +234,18 @@ void ASMMainCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 
 	//UE_LOG(LogTemp, Display, TEXT("Damage Locked again"));
 	UE_LOG(LogTemp, Display, TEXT("Damage was locked, finished playing Anim: '%s'"), *Montage->GetFName().ToString());
+}
+
+void ASMMainCharacter::CancelAnimation(UAnimMontage* PlayingAnimation)
+{
+	if (PlayingAnimation && (GetMesh()->GetAnimInstance()->Montage_IsPlaying(PlayingAnimation)))
+	{
+		GetMesh()->GetAnimInstance()->Montage_Stop(0.1f, PlayingAnimation);
+
+		// On end of the animNotify, speed can be temporarily set to 100.f
+		// this needs to be restored to 600.f on an interrupted animation as well
+		GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	}
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
