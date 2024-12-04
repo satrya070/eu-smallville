@@ -11,6 +11,7 @@ class UCameraComponent;
 class UStaticMeshComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeath);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnhealthChangePlayer, float, NewHealth);
 
 UCLASS()
 class PROJECTSMALLVILLE_API ASMMainCharacter : public ACharacter
@@ -108,4 +109,7 @@ private:
 	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
 	void CancelAnimation(UAnimMontage* PlayingAnimation);
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnhealthChangePlayer HealthChanged;
 };

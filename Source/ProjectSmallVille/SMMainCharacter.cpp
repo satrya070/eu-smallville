@@ -255,6 +255,9 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 
 	CurrentHealth -= DamageAmount;
 
+	// dispatch event to update lifebar GUI (among other)
+	HealthChanged.Broadcast(CurrentHealth);
+
 	// play hit montage
 	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling() && !IsDead())
 	{

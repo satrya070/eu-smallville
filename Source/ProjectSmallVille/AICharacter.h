@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AICharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnhealthChange, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnhealthChangeAI, float, NewHealth);
 
 
 UCLASS()
@@ -84,5 +84,5 @@ private:
 	UAnimMontage* GetHitAnimation;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnhealthChange OnHealthChanged;
+	FOnhealthChangeAI OnHealthChanged;
 };
