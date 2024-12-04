@@ -71,6 +71,9 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	Health = Health - DamageAmount;
 
+	// dispatch event for damage to be consumed in GUI (and other)
+	OnHealthChanged.Broadcast(Health);
+
 	if (Health <= 0)
 	{
 		// play dead anim

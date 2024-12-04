@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "AICharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnhealthChange, float, NewHealth);
+
+
 UCLASS()
 class PROJECTSMALLVILLE_API AAICharacter : public ACharacter
 {
@@ -34,8 +37,11 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	float MaxHealth = 40.f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Health = 100.f;
+	float Health = 40.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector MuzzleOffset;
@@ -76,4 +82,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* GetHitAnimation;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnhealthChange OnHealthChanged;
 };

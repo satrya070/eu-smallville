@@ -162,6 +162,7 @@ void ASMMainCharacter::Crouch()
 void ASMMainCharacter::UnCrouch()
 {
 	Super::UnCrouch();
+	//UE_LOG(LogTemp, Display, TEXT("release crouch"));
 }
 
 void ASMMainCharacter::Punch()
