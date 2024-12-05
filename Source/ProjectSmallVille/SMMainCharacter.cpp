@@ -69,23 +69,11 @@ void ASMMainCharacter::Tick(float DeltaTime)
 		SmoothRotateTo(DeltaTime);
 	}
 
-	// attempt 2
-	float CurrentHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
-	float TargetHeight = bIsCrouching ? CrouchedCapsuleHalfHeight : StandingCapsuleHalfHeight;
-	float Tolerance = .5f;
-	if (FMath::Abs(CurrentHeight - TargetHeight) > Tolerance)
-	{
-		float NewHeight = FMath::FInterpTo(CurrentHeight, TargetHeight, DeltaTime, 5.f);
-		GetCapsuleComponent()->SetCapsuleHalfHeight(NewHeight);
-	}
-
-	// Handle crouch and jump state
+	// Keeps track of player is jumping status
 	HandleJumpState();
 
-	// handle capsule on jump
-	float TargetHeightJump = bIsJumping ? JumpCapsuleHalfHeight : StandingCapsuleHalfHeight;
-	InterpolateCapsuleHeight(DeltaTime, TargetHeightJump);
-
+	// Handle the smooth capsule shrinking/growing based on player crouch/jump positioning
+	InterpolateCapsuleHeight(DeltaTime, GetCapsuleHalfHeight());
 
 }
 
@@ -294,6 +282,22 @@ void ASMMainCharacter::InterpolateCapsuleHeight(float DeltaTime, float TargetHei
 		float UpdatedHeight = FMath::FInterpTo(CurrentHeight, TargetHeight, DeltaTime, 5.f);
 		GetCapsuleComponent()->SetCapsuleHalfHeight(UpdatedHeight);
 	}
+}
+
+float ASMMainCharacter::GetCapsuleHalfHeight()
+{
+	// return which height the capsule should be depending on the player position status
+	if (bIsJumping)
+	{
+		return JumpCapsuleHalfHeight;
+	}
+
+	if (bIsCrouching)
+	{
+		return CrouchedCapsuleHalfHeight;
+	}
+
+	return StandingCapsuleHalfHeight;
 }
 
 float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
