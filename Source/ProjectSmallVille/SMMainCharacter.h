@@ -85,6 +85,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsDead();
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsCrouching;
 private:
 	UPROPERTY(EditAnywhere)
 	float RotateSpeed = 10.f;
@@ -112,4 +115,9 @@ private:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnhealthChangePlayer HealthChanged;
+
+	UPROPERTY(EditDefaultsOnly)
+	float StandingCapsuleHalfHeight = 91.553329f;
+	
+	float CrouchedCapsuleHalfHeight = 61.f;
 };

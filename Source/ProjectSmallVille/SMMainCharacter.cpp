@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Animation/AnimSequence.h"
 #include "Components/SphereComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Actor.h"
@@ -66,6 +67,16 @@ void ASMMainCharacter::Tick(float DeltaTime)
 	if (bIsRotating == true)
 	{
 		SmoothRotateTo(DeltaTime);
+	}
+
+	// attempt 2
+	float CurrentHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
+	float TargetHeight = bIsCrouching ? CrouchedCapsuleHalfHeight : StandingCapsuleHalfHeight;
+	float Tolerance = .5f;
+	if (FMath::Abs(CurrentHeight - TargetHeight) > Tolerance)
+	{
+		float NewHeight = FMath::FInterpTo(CurrentHeight, TargetHeight, DeltaTime, 5.f);
+		GetCapsuleComponent()->SetCapsuleHalfHeight(NewHeight);
 	}
 }
 
@@ -156,12 +167,16 @@ void ASMMainCharacter::StopJump()
 
 void ASMMainCharacter::Crouch()
 {
-	Super::Crouch();
+	//Super::Crouch();
+	bIsCrouching = true;
+	GetCharacterMovement()->MaxWalkSpeed = 200.f;
 }
 
 void ASMMainCharacter::UnCrouch()
 {
-	Super::UnCrouch();
+	//Super::UnCrouch();
+	bIsCrouching = false;
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	//UE_LOG(LogTemp, Display, TEXT("release crouch"));
 }
 
