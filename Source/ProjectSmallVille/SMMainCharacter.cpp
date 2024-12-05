@@ -78,6 +78,15 @@ void ASMMainCharacter::Tick(float DeltaTime)
 		float NewHeight = FMath::FInterpTo(CurrentHeight, TargetHeight, DeltaTime, 5.f);
 		GetCapsuleComponent()->SetCapsuleHalfHeight(NewHeight);
 	}
+
+	// Handle crouch and jump state
+	HandleJumpState();
+
+	// handle capsule on jump
+	float TargetHeightJump = bIsJumping ? JumpCapsuleHalfHeight : StandingCapsuleHalfHeight;
+	InterpolateCapsuleHeight(DeltaTime, TargetHeightJump);
+
+
 }
 
 // Called to bind functionality to input
@@ -261,6 +270,29 @@ void ASMMainCharacter::CancelAnimation(UAnimMontage* PlayingAnimation)
 		// On end of the animNotify, speed can be temporarily set to 100.f
 		// this needs to be restored to 600.f on an interrupted animation as well
 		GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	}
+}
+
+void ASMMainCharacter::HandleJumpState()
+{
+	if (GetCharacterMovement()->IsFalling())
+	{
+		bIsJumping = true;
+	}
+	else
+	{
+		bIsJumping = false;
+	}
+}
+
+void ASMMainCharacter::InterpolateCapsuleHeight(float DeltaTime, float TargetHeight)
+{
+	float CurrentHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
+	float Tolerance = .5f;
+	if (FMath::Abs(CurrentHeight - TargetHeight) > Tolerance)
+	{
+		float UpdatedHeight = FMath::FInterpTo(CurrentHeight, TargetHeight, DeltaTime, 5.f);
+		GetCapsuleComponent()->SetCapsuleHalfHeight(UpdatedHeight);
 	}
 }
 

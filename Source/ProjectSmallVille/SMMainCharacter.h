@@ -119,5 +119,12 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float StandingCapsuleHalfHeight = 91.553329f;
 	
-	float CrouchedCapsuleHalfHeight = 61.f;
+	float CrouchedCapsuleHalfHeight = 45.f;
+	float JumpCapsuleHalfHeight = 45.f;
+
+	bool bIsJumping;
+
+	void HandleJumpState();
+
+	void InterpolateCapsuleHeight(float DeltaTime, float TargetHeight);
 };
