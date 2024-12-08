@@ -64,7 +64,7 @@ void ASMMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (bIsRotating == true)
+	if (bIsRotating == true && !IsDead())
 	{
 		SmoothRotateTo(DeltaTime);
 	}
@@ -225,6 +225,8 @@ void ASMMainCharacter::HandleDeath()
 
 void ASMMainCharacter::SmoothRotateTo(float DeltaTime)
 {
+
+
 	FRotator CurrentRotation = GetActorRotation();
 	float Tolerance = 1.0f;
 
@@ -329,6 +331,9 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 		{
 			GetMesh()->GetAnimInstance()->Montage_Play(DieAnimation);
 		}*/
+
+		// dont allow movementinput when dead 
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
 
 		// awaits the respawn time before calling destroy(which directly calls respawns)
 		GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &ASMMainCharacter::HandleDeath, 2.f, false);
