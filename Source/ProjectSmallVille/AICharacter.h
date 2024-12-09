@@ -7,6 +7,7 @@
 #include "AICharacter.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnhealthChangeAI, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAIDeath);
 
 
 UCLASS()
@@ -63,7 +64,7 @@ public:
 	bool IsDead();
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
-	float DespawnTime = 2.f;
+	float DespawnTime = 1.5f;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
@@ -85,4 +86,7 @@ private:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnhealthChangeAI OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnAIDeath OnAIDeath;
 };

@@ -76,6 +76,8 @@ float AAICharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (Health <= 0)
 	{
+		OnAIDeath.Broadcast();
+
 		// play dead anim
 		//* this only for CharacterAI since adding via a statemachine wasnt possible due to
 		// skeletal problems, so this and the despawn time is a hack.
