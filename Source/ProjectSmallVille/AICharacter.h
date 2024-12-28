@@ -66,6 +66,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	float DespawnTime = 1.5f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Sight = 500.f;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class AAIProjectile> ProjectileClass;
