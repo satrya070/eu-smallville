@@ -49,6 +49,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnPlayerDeath OnPlayerDeath;
 
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* JumpSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

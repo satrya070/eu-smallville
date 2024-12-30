@@ -152,6 +152,8 @@ void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
 
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
+
 	// Cancel punch/kick attacks on jump
 	CancelAnimation(HandAttackAnimation);
 	CancelAnimation(KickAttackAnimation);
