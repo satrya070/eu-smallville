@@ -55,6 +55,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* GetHitSound;
 
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* DeadSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -316,11 +316,6 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	// dispatch event to update lifebar GUI (among other)
 	HealthChanged.Broadcast(CurrentHealth);
 
-	if (GetHitSound)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GetHitSound, GetActorLocation());
-	}
-
 	// play hit montage
 	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling() && !IsDead())
 	{
@@ -333,6 +328,11 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 		GetMesh()->GetAnimInstance()->Montage_Play(GetHitAnimation);
 	}
 
+	if (GetHitSound && !IsDead())
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GetHitSound, GetActorLocation());
+	}
+
 	// call on death
 	if (CurrentHealth <= 0)
 	{
@@ -341,6 +341,12 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 		{
 			GetMesh()->GetAnimInstance()->Montage_Play(DieAnimation);
 		}*/
+
+		// plays immediately upon dead
+		if (DeadSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeadSound, GetActorLocation());
+		}
 
 		// dont allow movementinput when dead 
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_None);
