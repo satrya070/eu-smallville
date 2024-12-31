@@ -152,7 +152,10 @@ void ASMMainCharacter::StartJump()
 {
 	bPressedJump = true;
 
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
+	if (JumpSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), JumpSound, GetActorLocation());
+	}
 
 	// Cancel punch/kick attacks on jump
 	CancelAnimation(HandAttackAnimation);
@@ -312,6 +315,11 @@ float ASMMainCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 
 	// dispatch event to update lifebar GUI (among other)
 	HealthChanged.Broadcast(CurrentHealth);
+
+	if (GetHitSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GetHitSound, GetActorLocation());
+	}
 
 	// play hit montage
 	if (GetMesh() && GetHitAnimation && GetMesh()->GetAnimInstance() && !GetCharacterMovement()->IsFalling() && !IsDead())

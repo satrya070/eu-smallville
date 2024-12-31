@@ -52,6 +52,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* JumpSound;
 
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* GetHitSound;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
