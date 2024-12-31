@@ -225,6 +225,18 @@ void ASMMainCharacter::DisableMovement()
 void ASMMainCharacter::HandleDeath()
 {
 	OnPlayerDeath.Broadcast();
+
+	/* TODO delete(tried fic camera view issue on game over menu)
+	ASMPlayerController* PlayerController = Cast<ASMPlayerController>(GetController());
+	if (PlayerController)
+	{
+		APlayerCameraManager* CameraManager = PlayerController->PlayerCameraManager;
+		if (CameraManager)
+		{
+			CameraManager->Set(FRotator(0.0f, -90.f, 0.0f));
+		}
+	}*/
+
 	Destroy();
 }
 
